@@ -16,16 +16,16 @@ while inp:
     term = 0
     for x, inpt in enumerate([inp, inp[::-1]]):
         for i, a in enumerate(inpt):
+            if 48 <= ord(a) <= 57:
+                term += int(a) * (10 if x == 0 else 1)
+                break
             if i > 1:
-                for j in range(i-1):
+                for j in range(i-5,i-1):
                     s = inpt[j:i+1] if x == 0 else inpt[j:i+1][::-1]
                     if s in digitMap:
                         term += digitMap[s] * (10 if x == 0 else 1)
                         break
             if str(term)[x] != "0":
-                break
-            if 48 <= ord(a) <= 57:
-                term += int(a) * (10 if x == 0 else 1)
                 break
     total += term
     try:

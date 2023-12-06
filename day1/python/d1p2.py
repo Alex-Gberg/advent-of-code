@@ -20,7 +20,7 @@ while inp:
                 term += int(a) * (10 if x == 0 else 1)
                 break
             if i > 1:
-                for j in range(i-5,i-1):
+                for j in range(max(i-5, 0), i-1):
                     s = inpt[j:i+1] if x == 0 else inpt[j:i+1][::-1]
                     if s in digitMap:
                         term += digitMap[s] * (10 if x == 0 else 1)

@@ -15,7 +15,6 @@ for i in range(len(map)):
     for j in range(len(map[0])):
         if (i,j) in considered:
             continue
-        
 
         curr_plant = map[i][j]
         curr_region = set()
@@ -53,47 +52,27 @@ for i in range(len(map)):
         
         total_sides = 0
         for x in range(4):
+            isHorizontal = x%2 == 0
             curr_sides = 0
-            if x%2 == 0:
-                sides[x].sort(key=lambda y: y[1])
-                sides[x].sort(key=lambda y: y[0])
+            sides[x].sort(key=lambda y: y[1 if isHorizontal else 0])
+            sides[x].sort(key=lambda y: y[0 if isHorizontal else 1])
 
-                curr_axis = sides[x][0][0]
-                prev_rank = sides[x][0][1]
-                for y in range(1, len(sides[x])):
-                    if sides[x][y][0] != curr_axis:
-                        curr_sides += 1
-                        curr_axis = sides[x][y][0]
-                        prev_rank = sides[x][y][1]
-                        continue
+            curr_axis = sides[x][0][0 if isHorizontal else 1]
+            prev_rank = sides[x][0][1 if isHorizontal else 0]
+            for y in range(1, len(sides[x])):
+                if sides[x][y][0 if isHorizontal else 1] != curr_axis:
+                    curr_sides += 1
+                    curr_axis = sides[x][y][0 if isHorizontal else 1]
+                    prev_rank = sides[x][y][1 if isHorizontal else 0]
+                    continue
 
-                    if sides[x][y][1]-1 != prev_rank:
-                        curr_sides += 1
-                        prev_rank = sides[x][y][1]
-                        continue
-                    
-                    prev_rank = sides[x][y][1]
-                curr_sides += 1
-            else:
-                sides[x].sort(key=lambda y: y[0])
-                sides[x].sort(key=lambda y: y[1])
-
-                curr_axis = sides[x][0][1]
-                prev_rank = sides[x][0][0]
-                for y in range(1, len(sides[x])):
-                    if sides[x][y][1] != curr_axis:
-                        curr_sides += 1
-                        curr_axis = sides[x][y][1]
-                        prev_rank = sides[x][y][0]
-                        continue
-
-                    if sides[x][y][0]-1 != prev_rank:
-                        curr_sides += 1
-                        prev_rank = sides[x][y][0]
-                        continue
-
-                    prev_rank = sides[x][y][0]
-                curr_sides += 1
+                if sides[x][y][1 if isHorizontal else 0]-1 != prev_rank:
+                    curr_sides += 1
+                    prev_rank = sides[x][y][1 if isHorizontal else 0]
+                    continue
+                
+                prev_rank = sides[x][y][1 if isHorizontal else 0]
+            curr_sides += 1
             total_sides += curr_sides
         
         total_price += total_sides * len(curr_region)
